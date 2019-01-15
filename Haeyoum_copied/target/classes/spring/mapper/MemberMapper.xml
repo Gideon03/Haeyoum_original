@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member.model.MemberMapper">
+
+	<select id="selectById" parameterType="hashmap" resultType="member">
+	select * from member where member_id = #{member_id}
+	</select>
+	
+	<select id="checkId" resultType="int">
+	select count(*) from member where member_id = #{member_id}
+	</select>	
+	
+	<select id="selectAll" resultType="member">
+	select * from member
+	</select>
+	
+	<select id="count" resultType="int">
+	select count(*) from member
+	</select>
+	
+	<insert id="insert" parameterType="member">
+	insert into member values (#{member_id}, #{member_password}, #{member_image}, #{member_name}, #{member_nickname}, #{member_email}, #{member_birthday}, now(), now())
+	</insert>
+	
+	<insert id="insertM" parameterType="member">
+	insert into member values (#{member_id}, #{member_password}, null, #{member_name}, #{member_nickname}, #{member_email}, #{member_birthday}, now(), now())
+	</insert>
+	
+	<update id="update" parameterType="updateMem" >
+	update member set member_password = #{member_password}, member_image = #{member_image}, member_nickname = #{member_nickname}, member_email = #{member_email} 
+	where member_id = #{member_id}
+	</update>
+	
+	<delete id="delete" parameterType="member">
+	delete from member where member_id = #{member_id}
+	</delete>
+	
+</mapper>

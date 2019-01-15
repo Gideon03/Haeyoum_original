@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="group.model.PlanMapper">
+
+	<insert id="insert" parameterType="plan" >
+		insert into plan 
+		values (#{group_id}, 105, default, #{plan_name}, #{plan_text}, #{plan_st_date}, 
+		#{plan_st_time}, #{plan_end_date}, #{plan_end_time}, #{plan_yearMonth}, #{plan_day}, #{plan_writer}, now())
+	</insert>
+	<select id="select" parameterType="hashmap" resultType="plan">
+	select group_id, con_id, plan_name, plan_st_date, plan_st_time, plan_end_date, plan_end_time, plan_yearMonth, plan_day
+	from plan
+	where DATE(plan_st_date) BETWEEN #{strToday}'-01' and #{strToday}'-31' and group_Id = #{group_id}
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer" >
+		select count(*) 
+		from plan where DATE(plan_st_date) BETWEEN #{strToday}'-01' and #{strToday}'-31'
+	</select>
+	<update id="update" parameterType="plan" >
+		update plan set plan_name = #{plan_name}, plan_text = #{plan_text}, plan_st_time = #{plan_st_time}, plan_end_time = #{plan_end_time}
+		where group_id = #{group_id} and con_id = #{con_id};
+	</update>
+	<select id="selectupdate" parameterType="hashmap" resultType="plan">
+	select * from plan 
+	where group_Id = #{group_id} and con_id = #{con_id}
+	</select>
+	<delete id="plandelete" parameterType="hashmap">
+	delete from plan
+	where group_Id = #{group_id} and con_id = #{con_id}
+	</delete>
+</mapper>
